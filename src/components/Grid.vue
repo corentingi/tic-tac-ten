@@ -1,11 +1,11 @@
 <template>
-  <div class="grid">
-    <div class="cell" v-for="(mark, index) in marks" :key="index" @click="onCellClick(index)">
-      <span v-if="mark === 'x'">X</span>
-      <span v-else-if="mark === 'o'">O</span>
-      <span v-else>-</span>
-    </div>
-  </div>
+  <svg class="grid" width="120" height="120">
+    <template v-for="(mark, index) in marks">
+      <circle :key="index" @click="onCellClick(index)" v-if="mark === 'o'" :cx="20 + 40 * xOffset(index)" :cy="20 + 40 * yOffset(index)" r="15" fill="pink" />
+      <rect :key="index" @click="onCellClick(index)" v-else-if="mark === 'x'" :x="5 + 40 * xOffset(index)" :y="5 + 40 * yOffset(index)" width="30" height="30" style="fill:rgb(160,210,230);" />
+      <rect :key="index" @click="onCellClick(index)" v-else :x="5 + 40 * xOffset(index)" :y="5 + 40 * yOffset(index)" width="30" height="30" style="fill:rgb(240,240,240);" />
+    </template>
+  </svg>
 </template>
 
 <script>
@@ -16,6 +16,12 @@ export default {
     marks: Array
   },
   methods: {
+    xOffset: function (index) {
+      return index % 3
+    },
+    yOffset: function (index) {
+      return Math.floor(index / 3)
+    },
     onCellClick: function (index) {
       this.$store.dispatch('board/play', {gridId: this.gridId, markId: index})
     }

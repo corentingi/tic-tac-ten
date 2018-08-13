@@ -3,7 +3,6 @@ import Vue from 'vue'
 // initial state
 // shape: [{ id, quantity }]
 const state = {
-  test: 'Corentin',
   turn: 0,
   grids: Array(9).fill().map(() => Array(9).fill()),
   state: null
@@ -19,8 +18,12 @@ const getters = {
 // actions
 const actions = {
   play (context, {gridId, markId}) {
-    context.commit('setMark', {gridId, markId})
-    context.commit('nextTurn')
+    console.log('Coucou !')
+    let mark = state.grids[gridId][markId]
+    if (mark !== 'o' && mark !== 'x') {
+      context.commit('setMark', { gridId, markId })
+      context.commit('nextTurn')
+    }
   }
 }
 
